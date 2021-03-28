@@ -1,0 +1,22 @@
+#!/usr/bin/env /lib/init/init-d-script
+### BEGIN INIT INFO
+# Provides:          mdns-repeater
+# Required-Start:    $local_fs $network $syslog
+# Required-Stop:     $local_fs $network $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Multicast DNS repeater
+# Description:       Debian init script to start the mdns-repeater daemon.
+### END INIT INFO
+DAEMON="/usr/sbin/mdns-repeater"
+START_ARGS="-c nobody:nogroup"
+
+do_start_prepare() {
+	touch /var/run/mdns-repeater.pid
+	chown nobody:nogroup /var/run/mdns-repeater.pid
+}
+
+do_restart() {
+	call do_stop
+	call do_start
+}
